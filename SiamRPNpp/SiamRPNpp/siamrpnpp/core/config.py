@@ -133,7 +133,7 @@ __C.DATASET.NEG = 0.2
 # improve tracking performance for otb100
 __C.DATASET.GRAY = 0.0
 
-__C.DATASET.NAMES = ('GOT',)  #('VID', 'COCO', 'DET', 'YOUTUBEBB', 'GOT')
+__C.DATASET.NAMES = ('COCO',)  #('VID', 'COCO', 'DET', 'YOUTUBEBB', 'GOT')
 
 __C.DATASET.VID = CN()
 __C.DATASET.VID.ROOT = 'data/vid/crop511'

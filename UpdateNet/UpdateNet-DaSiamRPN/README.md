@@ -1,11 +1,12 @@
-#  UpdateNet
+# UpdateNet
 
 ## Description
- 
+
 - [哔哩哔哩1](https://www.bilibili.com/video/bv1Jg4y1B7tL)
 - [哔哩哔哩2](https://www.bilibili.com/video/BV1yV411y7Qj)
 
-- Note1: About create_template.py at line:138  'get_axis_aligned_rect' not exist， please comment get_axis_aigned_rect function
+- Note1: About create_template.py at line:138  'get_axis_aligned_rect' not exist， please comment get_axis_aigned_rect
+  function
 
 ```
 
@@ -23,9 +24,12 @@
 
             break   
 ``` 
--Note2： About“ cannnot import region error”， you can refer  https://github.com/STVIR/pysot/blob/master/INSTALL.md ， and try to run “ python setup.py build_ext —-inplace”
+
+-Note2： About“ cannnot import region error”， you can refer  https://github.com/STVIR/pysot/blob/master/INSTALL.md ， and
+try to run “ python setup.py build_ext —-inplace”
 
 ## File tree
+
 ```
 ├── bin
 ├── dasiamrpn
@@ -44,8 +48,8 @@ How to produce templates ? You can choose iou<0.2, iou<0.3,  iou<0.4
 
 python ./updatenet/create_template.py
 ```
-![image](./template.png)
 
+![image](./template.png)
 
 ## Model
 
@@ -54,6 +58,7 @@ python ./updatenet/create_template.py
 [BaiduYun](https://pan.baidu.com/s/15mwwxY8LLKCWu2UAnMWDFg) password: 1iii
 
 ## Train
+
 ```
 # step=1,2,3
 
@@ -61,18 +66,19 @@ python ./updatenet/train_upd.py
 ```
 
 ## Test
+
 ```
 python ./bin/my_test.py
 ```
 
 ## Experiment
 
-
-- My result VOT2018 EAO=0.403, original result VOT2018 EAO=0.393 
+- My result VOT2018 EAO=0.403, original result VOT2018 EAO=0.393
 
 - How to train UpdateNet on VOT2018 ?
 
 - Stage 1.1
+
 ```
 Generate templates by linear update, train from scratch
 
@@ -85,7 +91,9 @@ checpoint1   EAO  xxx
 checkpoint50 EAO  xxx
 
 ```
+
 - Stage 1.2
+
 ```
 Load pretrained model(the best checkpoint from stage 1.1), train from checkpoint
 
@@ -99,6 +107,7 @@ checkpoint50 EAO  xxx
 ```
 
 - Stage 2.1
+
 ```
 Generate templates by UpdateNet model (choose best checkpoint from stage 1.2) , train from scratch
 
@@ -112,6 +121,7 @@ checkpoint50 EAO  xxx
 ```
 
 - Stage 2.2
+
 ```
 Load pretrained model(choose best checkpoint from stage 2.1),train from checkpoint
 
@@ -126,6 +136,7 @@ checkpoint50 EAO  xxx
 ```
 
 - Stage 3.1
+
 ```
 Generate templates by UpdateNet model (choose best checkpoint from stage 2.2) , train from scratch
 
@@ -139,6 +150,7 @@ checkpoint50 EAO  xxx
 ```
 
 - Stage 3.2
+
 ```
 Load pretrained model(choose best checkpoint from stage 3.1), train from checkpoint
 
@@ -206,9 +218,11 @@ Honglin Chu
 
 Zeyu Xi
 ```
+
 ## Reference
 
 [Zhang Lichao](https://github.com/zhanglichao/updatenet)
+
 ```
 [1] Zhang L, Gonzalez-Garcia A, Weijer J, et al. Learning the Model Update for Siamese Trackers. Proceedings of the IEEE International Conference on Computer Vision. 2019: 4010-4019.
 

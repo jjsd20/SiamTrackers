@@ -55,6 +55,7 @@ class SiameseTracker(BaseTracker):
         # context_ymin = round(pos[1] - c)
         context_ymin = np.floor(pos[1] - c + 0.5)
         context_ymax = context_ymin + sz - 1
+
         left_pad = int(max(0., -context_xmin))
         top_pad = int(max(0., -context_ymin))
         right_pad = int(max(0., context_xmax - im_sz[1] + 1))

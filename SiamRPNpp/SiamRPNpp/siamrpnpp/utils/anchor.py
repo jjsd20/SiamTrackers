@@ -16,24 +16,24 @@ class Anchors:
     This class generate anchors.
     """
     def __init__(self, stride, ratios, scales, image_center=0, size=0):
-        self.stride = stride
-        self.ratios = ratios
-        self.scales = scales
+        self.stride = stride#8
+        self.ratios = ratios#[0.33, 0.5, 1, 2, 3]
+        self.scales = scales#[8]
         self.image_center = 0
         self.size = 0
 
-        self.anchor_num = len(self.scales) * len(self.ratios)
+        self.anchor_num = len(self.scales) * len(self.ratios)#[5,4]
 
-        self.anchors = None
+        self.anchors = None#
 
-        self.generate_anchors()
+        self.generate_anchors()#
 
     def generate_anchors(self):
         """
         generate anchors based on predefined configuration
         """
-        self.anchors = np.zeros((self.anchor_num, 4), dtype=np.float32)
-        size = self.stride * self.stride
+        self.anchors = np.zeros((self.anchor_num, 4), dtype=np.float32)#
+        size = self.stride * self.stride#64
         count = 0
         for r in self.ratios:
             ws = int(math.sqrt(size*1. / r))

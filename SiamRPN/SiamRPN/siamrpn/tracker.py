@@ -95,11 +95,11 @@ class SiamRPNTracker:
                                                          config.context_amount, self.img_mean)
         
         instance_img = self.transforms(instance_img_np)[None, :, :, :]
-        # pred_score=1,2x5,17,17 ; pre_regression=1,4x5,17,17 
+        # pred_score=1,2x5,19,19 ; pre_regression=1,4x5,19,19
         pred_score, pred_regression = self.model.track(instance_img.cuda())# 
-        #[1,5x17x17,2] 5x17x17=1445
+        #[1,5x19x19,2] 5x19x19=1805
         pred_conf = pred_score.reshape(-1, 2, config.anchor_num * config.score_size * config.score_size).permute(0,2,1)
-        #[1,5x17x17,4]                                                                                                     
+        #[1,5x19x19,4]
         pred_offset = pred_regression.reshape(-1, 4,config.anchor_num * config.score_size * config.score_size).permute(0,2,1)
                                                                                                                 
         delta = pred_offset[0].cpu().detach().numpy()

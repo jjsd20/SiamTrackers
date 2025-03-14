@@ -22,6 +22,8 @@ def select_cross_entropy_loss(pred, label):
     label = label.view(-1)
     pos = label.data.eq(1).nonzero().squeeze().cuda()
     neg = label.data.eq(0).nonzero().squeeze().cuda()
+
+
     loss_pos = get_cls_loss(pred, label, pos)
     loss_neg = get_cls_loss(pred, label, neg)
     return loss_pos * 0.5 + loss_neg * 0.5

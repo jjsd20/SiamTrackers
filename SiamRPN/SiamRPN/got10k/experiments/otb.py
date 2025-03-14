@@ -49,7 +49,7 @@ class ExperimentOTB(object):
             # skip if results exist
             record_file = os.path.join(self.result_dir, tracker.name, '%s.txt' % seq_name)
             # if os.path.exists(record_file):
-            #     print('Found results, skipping', seq_name)
+            #     print('Found results, skipping', seq_name)np.meshgrid
             #     continue
             #tracking loop
             boxes, times = tracker.track(img_files, anno[0, :], visualize=visualize)

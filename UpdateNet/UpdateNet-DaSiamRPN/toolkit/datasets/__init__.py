@@ -1,10 +1,11 @@
-from .vot import VOTDataset, VOTLTDataset
-from .otb import OTBDataset
-from .uav import UAVDataset
+from .got10k import GOT10kDataset
 from .lasot import LaSOTDataset
 from .nfs import NFSDataset
+from .otb import OTBDataset
 from .trackingnet import TrackingNetDataset
-from .got10k import GOT10kDataset
+from .uav import UAVDataset
+from .vot import VOTDataset, VOTLTDataset
+
 
 class DatasetFactory(object):
     @staticmethod
@@ -39,4 +40,3 @@ class DatasetFactory(object):
         else:
             raise Exception("unknow dataset {}".format(kwargs['name']))
         return dataset
-

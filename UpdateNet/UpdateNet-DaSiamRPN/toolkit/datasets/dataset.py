@@ -1,5 +1,3 @@
-from tqdm import tqdm
-
 class Dataset(object):
     def __init__(self, name, dataset_root):
         self.name = name

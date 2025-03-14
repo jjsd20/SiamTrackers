@@ -30,22 +30,22 @@ def select_model(arg):
         snapshot='models/siamrpnpp_alexnet/snapshot/checkpoint_e27-16.pth'
     elif arg==2:
         config='models/siamrpnpp_alexnet/config.yaml'     #SiamRPN   -AlexNet   -OTB  180fps
-        snapshot='models/siamrpnpp_alexnet/model.pth'
+        snapshot='models/siamrpnpp_alexnet/checkpointres.pth'
     elif arg==3: 
         config='models/siamrpnpp_alexnet/config.yaml'     #SiamRPN++ -ResNet    35fps  
-        snapshot='models/siamrpnpp_alexnet/model.pth'
+        snapshot='models/siamrpnpp_alexnet/checkpointres.pth'
     elif arg==4:
         config='models/siamrpnpp_alexnet/config.yaml' #SiamRPN++ -ResNet  -OTB  35fps
-        snapshot='models/siamrpnpp_alexnet/model.pth'
+        snapshot='models/siamrpnpp_alexnet/checkpointres.pth'
     elif arg==5:
         config='models/siamrpnpp_alexnet/config.yaml'  #SiamRPN++ -ResNet   -LT   20fps
-        snapshot='models/siamrpnpp_alexnet/model.pth'
+        snapshot='models/siamrpnpp_alexnet/checkpointres.pth'
     elif arg==6:
         config='models/siamrpnpp_alexnet/config.yaml'#SiamRPN++ -Mobilev2      75fps
-        snapshot='models/siamrpnpp_alexnet/model.pth'
+        snapshot='models/siamrpnpp_alexnet/checkpointres.pth'
     elif arg==7:
         config='models/siamrpnpp_alexnet/config.yaml'              #SiamMask  -ResNet        56fps
-        snapshot='models/siamrpnpp_alexnet/model.pth'
+        snapshot='models/siamrpnpp_alexnet/checkpointres.pth'
     else:
         print('no model is selected')
         return 0

@@ -1,5 +1,3 @@
-import numpy as np
-
 class Config:
     # These are the default hyper-params for DaSiamRPN 0.3827
     windowing = 'cosine'  # to penalize large displacements [cosine/uniform]
@@ -7,8 +5,8 @@ class Config:
     exemplar_size = 127  # input z size
     instance_size = 271  # input x size (search region)
     total_stride = 8
-    #python3
-    score_size = (instance_size-exemplar_size)//total_stride+1
+    # python3
+    score_size = (instance_size - exemplar_size) // total_stride + 1
     context_amount = 0.5  # context amount for the exemplar
     ratios = [0.33, 0.5, 1, 2, 3]
     scales = [8, ]

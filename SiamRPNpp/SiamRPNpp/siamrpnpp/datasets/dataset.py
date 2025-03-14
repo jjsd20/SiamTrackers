@@ -28,10 +28,10 @@ if pyv[0] == '3':
 
 class SubDataset(object):
     def __init__(self, name, root, anno, frame_range, num_use, start_idx):
-        cur_path = os.path.dirname(os.path.realpath(__file__))
+        cur_path = os.path.dirname(os.path.realpath(__file__))#'/home/xyz/Code/SiamTrackers/SiamRPNpp/SiamRPNpp/siamrpnpp/datasets'
         self.name = name
-        self.root = os.path.join(cur_path, '../../', root)
-        self.anno = os.path.join(cur_path, '../../', anno)
+        self.root = os.path.join(cur_path, '../../', root)#'/home/xyz/Code/SiamTrackers/SiamRPNpp/SiamRPNpp/siamrpnpp/datasets/../../data/coco/crop511'
+        self.anno = os.path.join(cur_path, '../../', anno)#'/home/xyz/Code/SiamTrackers/SiamRPNpp/SiamRPNpp/siamrpnpp/datasets/../../data/coco/train2017.json'
         self.frame_range = frame_range
         self.num_use = num_use
         self.start_idx = start_idx
@@ -139,12 +139,14 @@ class SubDataset(object):
 class TrkDataset(Dataset):
     def __init__(self,):
         super(TrkDataset, self).__init__()
-
+        #cfg.TRAIN.SEARCH_SIZE =255, cfg.TRAIN.EXEMPLAR_SIZE=127
+        #cfg.ANCHOR.STRIDE=8,cfg.TRAIN.BASE_SIZE=0
         desired_size = (cfg.TRAIN.SEARCH_SIZE - cfg.TRAIN.EXEMPLAR_SIZE) / \
             cfg.ANCHOR.STRIDE + 1 + cfg.TRAIN.BASE_SIZE
+        #cfg.TRAIN.OUTPUT_SIZE=17
         if desired_size != cfg.TRAIN.OUTPUT_SIZE:
             raise Exception('size not match!')
-        
+
         # create anchor target
         self.anchor_target = AnchorTarget()
 
@@ -230,11 +232,11 @@ class TrkDataset(Dataset):
         return self.num
 
     def __getitem__(self, index):
-        index = self.pick[index]
-        dataset, index = self._find_dataset(index)
+        index = self.pick[index]        #经过shuffle之后的index
+        dataset, index = self._find_dataset(index)  #找到对应的dataset
 
-        gray = cfg.DATASET.GRAY and cfg.DATASET.GRAY > np.random.random()
-        neg = cfg.DATASET.NEG and cfg.DATASET.NEG > np.random.random()
+        gray = cfg.DATASET.GRAY and cfg.DATASET.GRAY > np.random.random() #是否转为灰度图
+        neg = cfg.DATASET.NEG and cfg.DATASET.NEG > np.random.random()  #是否为负样本
 
         # get one dataset
         if neg:
@@ -244,7 +246,7 @@ class TrkDataset(Dataset):
             template, search = dataset.get_positive_pair(index)
 
         # get image
-        template_image = cv2.imread(template[0])
+        template_image = cv2.imread(template[0]) #尺寸为511*511*3
         search_image = cv2.imread(search[0])
 
         # get bounding box
@@ -253,7 +255,7 @@ class TrkDataset(Dataset):
         search_box = self._get_bbox(search_image, search[1])
 
         # augmentation
-        template, _ = self.template_aug(template_image,
+        template, _ = self.template_aug(template_image,      # template尺寸为127*127*3
                                         template_box,
                                         cfg.TRAIN.EXEMPLAR_SIZE,
                                         gray=gray)

@@ -33,6 +33,7 @@ from toolkit.evaluation import OPEBenchmark, AccuracyRobustnessBenchmark, \
 tracker_name='SiamRPN++'
 dataset='VOT2018'
 
+
 parser = argparse.ArgumentParser(description='tracking evaluation')
 parser.add_argument('--tracker_path', '-p', default='./results', type=str,
                     help='tracker result path')
@@ -42,6 +43,8 @@ parser.add_argument('--num', '-n', default=4, type=int,
                     help='number of thread to eval')
 parser.add_argument('--tracker_name', '-t', default=tracker_name,
                     type=str, help='tracker name')
+
+
 parser.add_argument('--show_video_level', '-s', dest='show_video_level',
                     action='store_true')
 parser.set_defaults(show_video_level=False)
@@ -61,8 +64,10 @@ def main():
 
     #root = os.path.realpath(os.path.join(os.path.dirname(__file__),
     #                         'testing_dataset'))
-    root = './datasets'
+    #root = '/home/xyz/data'
 
+    root = os.path.realpath(os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                         'data'))
     root = os.path.join(root, args.dataset)
     if 'OTB' in args.dataset:
         dataset = OTBDataset(args.dataset, root)

@@ -1,20 +1,21 @@
 import matplotlib.pyplot as plt
 import numpy as np
-
 from matplotlib import rc
-from .draw_utils import COLOR, LINE_STYLE
 
-rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
+from .draw_utils import COLOR
+
+rc('font', **{'family': 'sans-serif', 'sans-serif': ['Helvetica']})
 rc('text', usetex=True)
+
 
 def draw_f1(result, bold_name=None):
     # drawing f1 contour
     fig, ax = plt.subplots()
     for f1 in np.arange(0.1, 1, 0.1):
-        recall = np.arange(f1, 1+0.01, 0.01)
+        recall = np.arange(f1, 1 + 0.01, 0.01)
         precision = f1 * recall / (2 * recall - f1)
-        ax.plot(recall, precision, color=[0,1,0], linestyle='-', linewidth=0.5)
-        ax.plot(precision, recall, color=[0,1,0], linestyle='-', linewidth=0.5)
+        ax.plot(recall, precision, color=[0, 1, 0], linestyle='-', linewidth=0.5)
+        ax.plot(precision, recall, color=[0, 1, 0], linestyle='-', linewidth=0.5)
     ax.grid(b=True)
     ax.set_aspect(1)
     plt.xlabel('Recall')
@@ -38,7 +39,7 @@ def draw_f1(result, bold_name=None):
         best_idx[tracker_name] = max_idx
 
     for idx, (tracker_name, best_f1) in \
-            enumerate(sorted(best_f1.items(), key=lambda x:x[1], reverse=True)):
+            enumerate(sorted(best_f1.items(), key=lambda x: x[1], reverse=True)):
         if tracker_name == bold_name:
             label = r"\textbf{[%.3f] Ours}" % (best_f1)
         else:
@@ -48,12 +49,13 @@ def draw_f1(result, bold_name=None):
         ax.plot(recall, precision, color=COLOR[idx], linestyle='-',
                 label=label)
         f1_idx = best_idx[tracker_name]
-        ax.plot(recall[f1_idx], precision[f1_idx], color=[0,0,0], marker='o',
+        ax.plot(recall[f1_idx], precision[f1_idx], color=[0, 0, 0], marker='o',
                 markerfacecolor=COLOR[idx], markersize=5)
     ax.legend(loc='lower right', labelspacing=0.2)
-    plt.xticks(np.arange(0, 1+0.1, 0.1))
-    plt.yticks(np.arange(0, 1+0.1, 0.1))
+    plt.xticks(np.arange(0, 1 + 0.1, 0.1))
+    plt.yticks(np.arange(0, 1 + 0.1, 0.1))
     plt.show()
+
 
 if __name__ == '__main__':
     draw_f1(None)

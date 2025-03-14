@@ -22,11 +22,17 @@ from toolkit.datasets import DatasetFactory
 from toolkit.utils.region import vot_overlap, vot_float2str
 
 import tqdm
-
-config='models/siamrpnpp_alexnet/config.yaml'         #SiamRPN   -AlexNet   180fps
-snapshot='models/siamrpnpp_alexnet/snapshot/checkpoint_e27-16.pth'
+'''
+config='../models/siamrpnpp_alexnet/config.yaml'         #SiamRPN   -AlexNet   180fps
+snapshot='../models/siamrpnpp_alexnet/snapshot/checkpoint_e27-16.pth'
 tracker_name='SiamRPN++'
 dataset='VOT2018'
+'''
+config='../models/siamrpnpp_resnet/config.yaml'         #SiamRPN   -resnet
+snapshot='../models/siamrpnpp_resnet/snapshot/model.pth'
+tracker_name='SiamRPN++'
+dataset='VOT2018'
+backbone='resnet50'
 
 parser = argparse.ArgumentParser(description='siamrpn tracking')
 parser.add_argument('--dataset', '-d', default=dataset,type=str,help='datasets')
@@ -34,7 +40,8 @@ parser.add_argument('--tracker_name', '-t', default=tracker_name,type=str,help='
 parser.add_argument('--config', default=config, type=str,help='config file')
 parser.add_argument('--snapshot', default=snapshot, type=str,help='snapshot of models to eval')
 parser.add_argument('--video', default='', type=str,help='eval one special video')
-parser.add_argument('--vis', action='store_true',help='whether visualzie result')
+parser.add_argument('--BACKBONE', default=backbone,type=str,help='to make path result/**(dateset)/sub path')
+parser.add_argument('--vis', default= True,action='store_true',help='whether visualzie result')
 
 args = parser.parse_args()
 
@@ -46,7 +53,7 @@ def main():
 
     #cur_dir = os.path.dirname(os.path.realpath(__file__))
 
-    dataset_root = os.path.join( './datasets', args.dataset)
+    dataset_root = os.path.join( '/home/xyz/data', args.dataset)
 
     # create model
     model = ModelBuilder()
@@ -108,10 +115,10 @@ def main():
                 if idx == 0:
                     cv2.destroyAllWindows()
                 if args.vis and idx > frame_counter:
-                    cv2.polylines(img, [np.array(gt_bbox, np.int).reshape((-1, 1, 2))],
+                    cv2.polylines(img, [np.array(gt_bbox, np.int32).reshape((-1, 1, 2))],
                             True, (0, 255, 0), 3)
                     if cfg.MASK.MASK:
-                        cv2.polylines(img, [np.array(pred_bbox, np.int).reshape((-1, 1, 2))],
+                        cv2.polylines(img, [np.array(pred_bbox, np.int32).reshape((-1, 1, 2))],
                                 True, (0, 255, 255), 3)
                     else:
                         bbox = list(map(int, pred_bbox))
@@ -124,8 +131,10 @@ def main():
             toc /= cv2.getTickFrequency()
             
             # save results
-            video_path = os.path.join('results', args.dataset, args.tracker_name,
-                    'baseline', video.name)
+            #video_path = os.path.join('results', args.dataset, args.tracker_name,
+            #        'baseline', video.name)
+            video_path = os.path.join('results', args.dataset, args.tracker_name, args.BACKBONE,
+                                  video.name)
             if not os.path.isdir(video_path):
                 os.makedirs(video_path)
             result_path = os.path.join(video_path, '{}_001.txt'.format(video.name))

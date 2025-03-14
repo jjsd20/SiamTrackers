@@ -21,19 +21,19 @@ class ModelBuilder(nn.Module):
 
         # build backbone
         self.backbone = get_backbone(cfg.BACKBONE.TYPE,
-                                     **cfg.BACKBONE.KWARGS)
+                                     **cfg.BACKBONE.KWARGS) #alexnet
 
         # build adjust layer
-        if cfg.ADJUST.ADJUST:
+        if cfg.ADJUST.ADJUST:                    #false
             self.neck = get_neck(cfg.ADJUST.TYPE,
                                  **cfg.ADJUST.KWARGS)
 
         # build rpn head
         self.rpn_head = get_rpn_head(cfg.RPN.TYPE,
-                                     **cfg.RPN.KWARGS)
+                                     **cfg.RPN.KWARGS) #DepthwiseRPN
 
         # build mask head
-        if cfg.MASK.MASK:
+        if cfg.MASK.MASK:                       #false
             self.mask_head = get_mask_head(cfg.MASK.TYPE,
                                            **cfg.MASK.KWARGS)
 
@@ -98,11 +98,11 @@ class ModelBuilder(nn.Module):
         # get feature
         zf = self.backbone(template)
         xf = self.backbone(search)
-        if cfg.MASK.MASK:
+        if cfg.MASK.MASK:#false
             zf = zf[-1]
             self.xf_refine = xf[:-1]
             xf = xf[-1]
-        if cfg.ADJUST.ADJUST:
+        if cfg.ADJUST.ADJUST:#truth
             zf = self.neck(zf)
             xf = self.neck(xf)
         cls, loc = self.rpn_head(zf, xf)

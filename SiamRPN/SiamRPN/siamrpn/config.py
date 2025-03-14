@@ -31,10 +31,10 @@ class Config:
     frame_range_vid = 100                  # frame range of choosing the instance
     frame_range_ytb = 1                    # training batch size
     frame_range_got = 100                  # max_inter   = 80#
-    train_batch_size = 16      #16 双           # training batch size
+    train_batch_size = 16     #16 双           # training batch size
     valid_batch_size = 16    #16 双            # validation batch size
-    train_num_workers = 8                  # number of workers of train dataloader
-    valid_num_workers = 8                  # number of workers of validation dataloader
+    train_num_workers = 8                  # 8 number of workers of train dataloader
+    valid_num_workers = 8                  # 8 number of workers of validation dataloader
     clip = 10                              # grad clip 
 
     start_lr = 1e-2   # siamrpn++ 里是  0.005 
@@ -55,7 +55,7 @@ class Config:
     weight_decay = 0.0005                  # weight decay of optimizator
 
     seed = 6666                            # seed to sample training videos
-    log_dir = './models/logs'                # log dirs
+    log_dir = '../models/logs'                # log dirs
     max_translate =  12                   # max translation of random shift  随机移动
     scale_resize = 0.15                    # scale step of instance image
     total_stride = 8                       # total stride of backbone
@@ -73,7 +73,7 @@ class Config:
     save_interval = 1
     show_interval = 100#100
     show_topK = 3
-    pretrained_model = './models/alexnet.pth'
+    pretrained_model = '../models/alexnet.pth'
 
     # tracking related
     gray_ratio = 0.25

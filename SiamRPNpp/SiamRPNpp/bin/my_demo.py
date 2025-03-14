@@ -35,7 +35,7 @@ def get_frames(video_name):
             else:
                 break
     elif video_name.endswith('avi') or  video_name.endswith('mp4'):
-        cap = cv2.VideoCapture(args.video_name)
+        cap = cv2.VideoCapture(video_name)
         while True:
             ret, frame = cap.read()
             if ret:
@@ -57,7 +57,7 @@ def select_model(arg):
     elif arg==2:
         config='models/siamrpnpp_resnet/config.yaml'     #SiamRPN   -AlexNet   -OTB  180fps
         snapshot='models/siamrpnpp_resnet/snapshot/checkpoint_e20.pth'
-    else
+    else:
         print('no model is selected')
         return 0
 

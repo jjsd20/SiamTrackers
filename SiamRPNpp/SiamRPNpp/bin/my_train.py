@@ -37,7 +37,7 @@ from siamrpnpp.datasets.dataset import TrkDataset
 from siamrpnpp.core.config import cfg
 
 
-os.environ['CUDA_VISIBLE_DEVICES']='0,1'  #可见的gpu编号，我的电脑配置是两块GPU
+os.environ['CUDA_VISIBLE_DEVICES']='0'  #可见的gpu编号，我的电脑配置是两块GPU
 # python -m torch.distributed.launch \
 #     --nproc_per_node=2 \
 #     --master_port=2333 \
@@ -52,7 +52,8 @@ os.environ['CUDA_VISIBLE_DEVICES']='0,1'  #可见的gpu编号，我的电脑配�
 logger = logging.getLogger('global')
 
 #默认加载 SiamRPNpp-dwx-alexnet模型的 配置文件
-config_path='./models/siamrpnpp_alexnet/config.yaml'
+#config_path='../models/siamrpnpp_alexnet/config.yaml'
+config_path='../models/siamrpnpp_resnet/config.yaml'
 
 parser = argparse.ArgumentParser(description='siamrpn tracking')
 parser.add_argument('--cfg', type=str, default=config_path, help='configuration of tracking')
@@ -68,6 +69,7 @@ def seed_torch(seed=0):
     torch.cuda.manual_seed(seed)
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
+
 
 #数据集
 def build_data_loader():
@@ -167,8 +169,7 @@ def log_grads(model, tb_writer, tb_index):
     tb_writer.add_scalar('grad/feature', feature_norm, tb_index)
     tb_writer.add_scalar('grad/rpn', rpn_norm, tb_index)
 
-    v = tensor[0] / world_size 
-    return v
+
 
 
 def train(train_loader, model, optimizer, lr_scheduler, tb_writer):
@@ -310,14 +311,14 @@ def main():
     #(2)
     # create model 
     model = ModelBuilder().cuda().train()
-    dist_model = nn.DataParallel(model,device_ids=[0,1])
+    dist_model = nn.DataParallel(model,device_ids=[0])
    
     #dist_model = DistModule(model)
 
     # load pretrained backbone weights
     if cfg.BACKBONE.PRETRAINED:
         cur_path = os.path.dirname(os.path.realpath(__file__))
-        backbone_path = os.path.join(cur_path, '../', cfg.BACKBONE.PRETRAINED)
+        backbone_path = os.path.join(cur_path, './', cfg.BACKBONE.PRETRAINED)
         load_pretrain(model.backbone, backbone_path)
 
     # create tensorboard writer

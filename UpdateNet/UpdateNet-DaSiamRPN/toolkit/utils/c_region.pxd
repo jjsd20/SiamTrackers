@@ -47,4 +47,5 @@ cdef extern from "src/region.h":
 
     # region_overlap region_compute_overlap(const region_container* ra, const region_container* rb, region_bounds bounds)
 
-    float compute_polygon_overlap(const region_polygon* p1, const region_polygon* p2, float *only1, float *only2, region_bounds bounds)
+    float compute_polygon_overlap(const region_polygon * p1, const region_polygon * p2, float *only1, float *only2,
+                                  region_bounds bounds)

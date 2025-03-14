@@ -4,8 +4,9 @@
 # Written by Qiang Wang (wangqiang2015 at ia.ac.cn)
 # --------------------------------------------------------
 import cv2
-import torch
 import numpy as np
+import torch
+
 
 def to_numpy(tensor):
     if torch.is_tensor(tensor):
@@ -14,6 +15,7 @@ def to_numpy(tensor):
         raise ValueError("Cannot convert {} to numpy array".format(type(tensor)))
     return tensor
 
+
 def to_torch(ndarray):
     if type(ndarray).__module__ == 'numpy':
         return torch.from_numpy(ndarray)
@@ -21,6 +23,7 @@ def to_torch(ndarray):
         raise ValueError("Cannot convert {} to torch tensor"
                          .format(type(ndarray)))
     return ndarray
+
 
 def im_to_numpy(img):
     img = to_numpy(img)
@@ -31,7 +34,7 @@ def im_to_numpy(img):
 def im_to_torch(img):
     img = np.transpose(img, (2, 0, 1))  # C*H*W
     img = to_torch(img)
-    img=img.float()
+    img = img.float()
     return img
 
 
@@ -40,26 +43,26 @@ def torch_to_img(img):
     img = np.transpose(img, (1, 2, 0))  # H*W*C
     return img
 
+
 # python3
 def Round(a):
-    if a>=0:
-       b=0.00000001
+    if a >= 0:
+        b = 0.00000001
     else:
-       b=-0.00000001
-    return  round(a+b)
+        b = -0.00000001
+    return round(a + b)
 
 
 def get_subwindow_tracking(im, pos, model_sz, original_sz, avg_chans, out_mode='torch', new=False):
-
     if isinstance(pos, float):
         pos = [pos, pos]
     sz = original_sz
     im_sz = im.shape
-    c = (original_sz+1) / 2           #round python3和python2不太一样
-   
-    context_xmin = Round(pos[0] - c) #python3 
+    c = (original_sz + 1) / 2  # round python3和python2不太一样
+
+    context_xmin = Round(pos[0] - c)  # python3
     context_xmax = context_xmin + sz - 1
-    context_ymin = Round(pos[1] - c) #python3
+    context_ymin = Round(pos[1] - c)  # python3
     context_ymax = context_ymin + sz - 1
     left_pad = int(max(0., -context_xmin))
     top_pad = int(max(0., -context_ymin))
@@ -74,7 +77,8 @@ def get_subwindow_tracking(im, pos, model_sz, original_sz, avg_chans, out_mode='
     # zzp: a more easy speed version
     r, c, k = im.shape
     if any([top_pad, bottom_pad, left_pad, right_pad]):
-        te_im = np.zeros((r + top_pad + bottom_pad, c + left_pad + right_pad, k), np.uint8)  # 0 is better than 1 initialization
+        te_im = np.zeros((r + top_pad + bottom_pad, c + left_pad + right_pad, k),
+                         np.uint8)  # 0 is better than 1 initialization
         te_im[top_pad:top_pad + r, left_pad:left_pad + c, :] = im
         if top_pad:
             te_im[0:top_pad, left_pad:left_pad + c, :] = avg_chans
@@ -95,11 +99,14 @@ def get_subwindow_tracking(im, pos, model_sz, original_sz, avg_chans, out_mode='
 
     return im_to_torch(im_patch) if out_mode in 'torch' else im_patch
 
+
 def cxy_wh_2_rect(pos, sz):
-    return np.array([pos[0]-sz[0]/2, pos[1]-sz[1]/2, sz[0], sz[1]])  # 0-index
+    return np.array([pos[0] - sz[0] / 2, pos[1] - sz[1] / 2, sz[0], sz[1]])  # 0-index
+
 
 def rect_2_cxy_wh(rect):
-    return np.array([rect[0]+rect[2]/2, rect[1]+rect[3]/2]), np.array([rect[2], rect[3]])  # 0-index
+    return np.array([rect[0] + rect[2] / 2, rect[1] + rect[3] / 2]), np.array([rect[2], rect[3]])  # 0-index
+
 
 def get_axis_aligned_bbox(region):
     # try:
@@ -108,7 +115,7 @@ def get_axis_aligned_bbox(region):
     # except:
     #     region = np.array(region)
     nv = region.size
-    if nv==8:
+    if nv == 8:
         cx = np.mean(region[0::2])
         cy = np.mean(region[1::2])
         x1 = min(region[0::2])
@@ -125,13 +132,14 @@ def get_axis_aligned_bbox(region):
         y = region[1]
         w = region[2]
         h = region[3]
-        cx = x+w/2
-        cy = y+h/2
+        cx = x + w / 2
+        cy = y + h / 2
     return cx, cy, w, h
 
+#
 def generate_anchor(total_stride, scales, ratios, score_size):
     anchor_num = len(ratios) * len(scales)
-    anchor = np.zeros((anchor_num, 4),  dtype=np.float32)
+    anchor = np.zeros((anchor_num, 4), dtype=np.float32)
     size = total_stride * total_stride
     count = 0
     for ratio in ratios:
@@ -148,10 +156,10 @@ def generate_anchor(total_stride, scales, ratios, score_size):
             count += 1
 
     anchor = np.tile(anchor, score_size * score_size).reshape((-1, 4))
-    ori = - (score_size // 2) * total_stride #python3和python2的区别
+    ori = - (score_size // 2) * total_stride  # python3和python2的区别
     xx, yy = np.meshgrid([ori + total_stride * dx for dx in range(score_size)],
                          [ori + total_stride * dy for dy in range(score_size)])
     xx, yy = np.tile(xx.flatten(), (anchor_num, 1)).flatten(), \
-             np.tile(yy.flatten(), (anchor_num, 1)).flatten()
+        np.tile(yy.flatten(), (anchor_num, 1)).flatten()
     anchor[:, 0], anchor[:, 1] = xx.astype(np.float32), yy.astype(np.float32)
     return anchor

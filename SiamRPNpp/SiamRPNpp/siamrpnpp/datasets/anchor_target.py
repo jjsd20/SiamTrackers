@@ -14,12 +14,12 @@ from siamrpnpp.utils.anchor import Anchors
 
 class AnchorTarget:
     def __init__(self,):
-        self.anchors = Anchors(cfg.ANCHOR.STRIDE,
-                               cfg.ANCHOR.RATIOS,
-                               cfg.ANCHOR.SCALES)
+        self.anchors = Anchors(cfg.ANCHOR.STRIDE,#8
+                               cfg.ANCHOR.RATIOS,#[0.33, 0.5, 1, 2, 3]
+                               cfg.ANCHOR.SCALES)#[8]
 
-        self.anchors.generate_all_anchors(im_c=cfg.TRAIN.SEARCH_SIZE//2,
-                                          size=cfg.TRAIN.OUTPUT_SIZE)
+        self.anchors.generate_all_anchors(im_c=cfg.TRAIN.SEARCH_SIZE//2,#255
+                                          size=cfg.TRAIN.OUTPUT_SIZE)#127
 
     def __call__(self, target, size, neg=False):
         anchor_num = len(cfg.ANCHOR.RATIOS) * len(cfg.ANCHOR.SCALES)
@@ -38,7 +38,7 @@ class AnchorTarget:
             slt = slt[:keep_num]
             return tuple(p[slt] for p in position), keep_num
 
-        tcx, tcy, tw, th = corner2center(target)
+        tcx, tcy, tw, th = corner2center(target) # 目标框中心点坐标和宽高
 
         if neg:
             # l = size // 2 - 3
@@ -48,7 +48,7 @@ class AnchorTarget:
             cx = size // 2
             cy = size // 2
             cx += int(np.ceil((tcx - cfg.TRAIN.SEARCH_SIZE // 2) /
-                      cfg.ANCHOR.STRIDE + 0.5))
+                      cfg.ANCHOR.STRIDE + 0.5))  # 目标框中心点坐标在搜索区域的相对坐标
             cy += int(np.ceil((tcy - cfg.TRAIN.SEARCH_SIZE // 2) /
                       cfg.ANCHOR.STRIDE + 0.5))
             l = max(0, cx - 3)

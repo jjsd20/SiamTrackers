@@ -41,10 +41,10 @@ class OTB(object):
                    'BlurFace', 'BlurOwl', 'Bolt', 'Box', 'Car1', 'Car4',
                    'CarDark', 'CarScale', 'ClifBar', 'Couple', 'Crowds',
                    'David', 'Deer', 'Diving', 'DragonBaby', 'Dudek',
-                   'Football', 'Freeman4', 'Girl', 'Human3', 'Human4',
+                   'Football', 'Freeman4', 'Girl', 'Human3', 'Human4-2',
                    'Human6', 'Human9', 'Ironman', 'Jump', 'Jumping',
                    'Liquor', 'Matrix', 'MotorRolling', 'Panda', 'RedTeam',
-                   'Shaking', 'Singer2', 'Skating1', 'Skating2', 'Skiing',
+                   'Shaking', 'Singer2', 'Skating1', 'Skating2-1', 'Skating2-2','Skiing',
                    'Soccer', 'Surfer', 'Sylvester', 'Tiger2', 'Trellis',
                    'Walking', 'Walking2', 'Woman']
 
@@ -54,7 +54,7 @@ class OTB(object):
                     'Dog', 'Dog1', 'Doll', 'FaceOcc1', 'FaceOcc2', 'Fish',
                     'FleetFace', 'Football1', 'Freeman1', 'Freeman3',
                     'Girl2', 'Gym', 'Human2', 'Human5', 'Human7', 'Human8',
-                    'Jogging', 'KiteSurf', 'Lemming', 'Man', 'Mhyang',
+                    'Jogging-1', 'Jogging-2','KiteSurf', 'Lemming', 'Man', 'Mhyang',
                     'MountainBike', 'Rubik', 'Singer1', 'Skater',
                     'Skater2', 'Subway', 'Suv', 'Tiger1', 'Toy', 'Trans',
                     'Twinnings', 'Vase'] + __tb50_seqs

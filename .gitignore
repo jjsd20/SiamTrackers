@@ -1,0 +1,7 @@
+.idea/
+*.model
+*.tar
+*.pth
+*.pth.tar
+*.so
+/data/
